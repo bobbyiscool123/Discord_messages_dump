@@ -50,6 +50,7 @@ This repository contains a Python script (`discord_scraper.py`) that allows you 
         DISCORD_CHANNEL_ID="YOUR_DISCORD_CHANNEL_ID"
         ```
         *Replace `YOUR_DISCORD_TOKEN` and `YOUR_DISCORD_CHANNEL_ID` with your actual values.*
+    **Important:** A `.env` file is already included in the repository. You should modify that file. Do not add a new `.env` file.
 
 3. **Run the Script (Windows):**
    * Open a command prompt or PowerShell window.
