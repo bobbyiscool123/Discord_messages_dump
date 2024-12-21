@@ -1,6 +1,6 @@
 # Discord Message Dumper
 
-This repository contains a Python script (`discord_scraper.py`) that allows you to download and save message history from a specified Discord channel. It uses the official Discord API and provides a formatted text file as output.
+This repository contains a Python script (`Dump.py`) that allows you to download and save message history from a specified Discord channel. It uses the official Discord API and provides a formatted text file as output.
 
 ## Features
 
@@ -60,7 +60,7 @@ This repository contains a Python script (`discord_scraper.py`) that allows you 
     ```
    *   Run the script:
     ```bash
-    python discord_scraper.py
+    python Dump.py
     ```
     *   The script will open a file dialog prompting you to select where the output text file is saved.
 
@@ -72,7 +72,7 @@ This repository contains a Python script (`discord_scraper.py`) that allows you 
       ```
     *   Run the script:
         ```bash
-        python3 discord_scraper.py
+        python3 Dump.py
         ```
     *   The script will open a file dialog prompting you to select where the output text file is saved.
 
