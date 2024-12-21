@@ -6,9 +6,9 @@ This repository contains a Python script (`discord_scraper.py`) that allows you 
 
 *   **Message Retrieval:** Fetches all messages from a given Discord channel.
 *   **Formatted Output:** Saves messages to a text file with author names, timestamps, and message content.
-*   **Secure Credential Handling:** Uses a `.env` file to store your Discord user token securely (not committed to the repository).
+*   **Secure Credential Handling:** Uses a `.env` file (already included, not committed to the repository) to store your Discord user token securely.
 *   **File Save Dialog:** Allows users to choose where to save the output file, including filename.
-*   **Pagination:** Handles Discord API's pagination, allowing to retrieve all messages in a channel without limitations.
+*   **Pagination:** Handles Discord API's pagination, allowing retrieval of all messages in a channel without limitations.
 *   **Rate Limit Handling:** Respects Discord's API rate limits with a slight delay between requests.
 
 ## How to Use
@@ -41,17 +41,38 @@ This repository contains a Python script (`discord_scraper.py`) that allows you 
     cd discord_messages_dump
     ```
     (Replace `<repository_url>` with the URL of this repository).
-2.  **Create `.env` File:**
-    *   Create a file named `.env` in the root directory of the repository.
-    *   Add the following lines to the `.env` file, replacing the placeholder values:
+
+2.  **Modify the `.env` File:**
+    *   Open the existing `.env` file in the root directory of the repository.
+    *   Add your Discord token and channel ID to the file:
         ```env
         DISCORD_TOKEN="YOUR_DISCORD_TOKEN"
         DISCORD_CHANNEL_ID="YOUR_DISCORD_CHANNEL_ID"
         ```
-3.  **Run the Script:**
+        *Replace `YOUR_DISCORD_TOKEN` and `YOUR_DISCORD_CHANNEL_ID` with your actual values.*
+
+3. **Run the Script (Windows):**
+   * Open a command prompt or PowerShell window.
+   * Navigate to the repository directory using the `cd` command, example:
+    ```bash
+    cd path\to\discord_messages_dump
+    ```
+   *   Run the script:
     ```bash
     python discord_scraper.py
     ```
+    *   The script will open a file dialog prompting you to select where the output text file is saved.
+
+4.  **Run the Script (Linux / macOS):**
+    *   Open a terminal window.
+    *   Navigate to the repository directory using the `cd` command, example:
+      ```bash
+      cd path/to/discord_messages_dump
+      ```
+    *   Run the script:
+        ```bash
+        python3 discord_scraper.py
+        ```
     *   The script will open a file dialog prompting you to select where the output text file is saved.
 
 ### Output
