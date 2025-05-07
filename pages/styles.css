@@ -1,0 +1,171 @@
+/* Main styles for Discord Messages Dump documentation */
+
+:root {
+    --primary-color: #5865F2; /* Discord blue */
+    --secondary-color: #57F287; /* Discord green */
+    --tertiary-color: #FEE75C; /* Discord yellow */
+    --dark-color: #2C2F33; /* Discord dark */
+    --light-color: #FFFFFF;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    padding-top: 56px;
+}
+
+.navbar {
+    background-color: var(--dark-color);
+}
+
+.navbar-brand {
+    color: var(--light-color);
+    font-weight: bold;
+}
+
+.nav-link {
+    color: var(--light-color);
+}
+
+.hero {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+}
+
+.section {
+    padding: 3rem 0;
+}
+
+.section-title {
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.card {
+    margin-bottom: 1.5rem;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    font-weight: bold;
+}
+
+footer {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+/* SVG Diagram Styles */
+.diagram-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.zoom-controls {
+    margin-bottom: 1rem;
+}
+
+.component {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.component:hover {
+    opacity: 0.8;
+}
+
+.component-tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    max-width: 250px;
+    z-index: 100;
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero {
+        padding: 2rem 0;
+    }
+    
+    .section {
+        padding: 2rem 0;
+    }
+    
+    .diagram-container {
+        overflow-x: auto;
+    }
+}
+
+/* Accessibility improvements */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Code blocks */
+pre {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Alert styles */
+.alert {
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.alert-info {
+    background-color: rgba(88, 101, 242, 0.1);
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
