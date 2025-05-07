@@ -1,18 +1,23 @@
-# Discord Message Dumper
+# <img src="pages/assets/img/logo.svg" width="80" height="80" alt="Discord Messages Dump Logo"> Discord Messages Dump
 
-This repository provides tools to download and save message history from Discord channels. It includes both a GUI script (`Dump.py`) and a command-line interface for flexibility. The package uses the Discord API to fetch messages and can output them in various formats including text, JSON, CSV, and Markdown.
+[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Version](https://img.shields.io/badge/version-0.1.0-orange.svg)](https://github.com/bobbyiscool123/Discord_messages_dump)
+
+A professional tool to download and save message history from Discord channels. This package provides both a command-line interface and a GUI script for flexibility, allowing users to fetch messages from Discord channels and save them in various formats including text, JSON, CSV, and Markdown. It handles pagination, rate limits, and provides detailed logging for troubleshooting.
 
 ## Features
 
-*   **Message Retrieval:** Fetches all messages from a given Discord channel.
-*   **Multiple Output Formats:** Saves messages in text, JSON, CSV, or Markdown formats.
-*   **Command-Line Interface:** Powerful CLI with options for token, channel ID, output format, and more.
-*   **Secure Credential Handling:** Uses a `.env` file to store your Discord user token securely.
-*   **File Save Dialog:** Allows users to choose where to save the output file, including filename.
-*   **Pagination:** Handles Discord API's pagination, allowing retrieval of all messages in a channel without limitations.
-*   **Rate Limit Handling:** Respects Discord's API rate limits with exponential backoff.
-*   **Progress Bar:** Visual feedback on download progress.
-*   **Verbose Logging:** Detailed logging for troubleshooting.
+* 📥 **Message Retrieval:** Fetches all messages from a given Discord channel with proper pagination
+* 🔄 **Multiple Output Formats:** Saves messages in text, JSON, CSV, or Markdown formats
+* ⌨️ **Command-Line Interface:** Powerful CLI with options for token, channel ID, output format, and more
+* 🔒 **Secure Credential Handling:** Uses a `.env` file and optional keyring integration for secure token storage
+* 📂 **File Save Dialog:** Allows users to choose where to save the output file, including filename
+* 📄 **Pagination Support:** Handles Discord API's pagination for retrieving large message histories
+* ⏱️ **Rate Limit Handling:** Respects Discord's API rate limits with exponential backoff retry logic
+* 📊 **Progress Bar:** Visual feedback on download progress with detailed logging
+* 🔍 **Verbose Logging:** Colored console output and rotating file logs for troubleshooting
 
 ## How to Use
 
@@ -140,6 +145,27 @@ The package provides a powerful command-line interface that can be used instead 
    discord-dump install-completion
    ```
 
-### Output
+## Quick Start
+
+1. **Clone the repository**: `git clone https://github.com/bobbyiscool123/Discord_messages_dump.git`
+2. **Install dependencies**: `pip install -r requirements.txt`
+3. **Set up your Discord token**: Create a `.env` file with your `DISCORD_TOKEN` and `DISCORD_CHANNEL_ID`
+4. **Run the CLI**: `python -m discord_messages_dump.cli dump --format json --output-file messages.json`
+5. **Explore the output**: Open the saved file to view your Discord messages
+
+## Supported Discord API Features
+
+| Feature | Support | Notes |
+|---------|---------|-------|
+| Text Messages | ✅ | Full support for all text content |
+| Attachments | ✅ | URLs and filenames included in output |
+| Embeds | ✅ | Basic embed content supported |
+| Reactions | ✅ | Emoji reactions included in JSON/CSV formats |
+| Pins | ✅ | Pin status included in output |
+| Edited Messages | ✅ | Edit timestamps included |
+| Deleted Messages | ❌ | Cannot retrieve deleted messages |
+| Voice Messages | ❌ | Voice chat not supported |
+
+## Output Formats
 
 The output file will contain the messages from the specified Discord channel, formatted according to the chosen format:
