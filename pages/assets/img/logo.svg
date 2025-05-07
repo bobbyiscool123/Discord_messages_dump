@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="40" cy="40" r="40" fill="#5865F2"/>
+  
+  <!-- Discord-like Shape -->
+  <path d="M61.5 26.5C61.5 26.5 55.5 21.5 48 21L47.25 22.5C54 24.5 57 27.5 60 31.5C54.5 28.5 49 27 40 27C31 27 25.5 28.5 20 31.5C23 27.5 27 24 32.75 22.5L32 21C24.5 21.5 18.5 26.5 18.5 26.5C18.5 26.5 11.5 37 10 55C17.5 64 29 64 29 64L31 61.5C27 60 23 57 20 51.5C23.5 54.5 29.5 57.5 40 57.5C50.5 57.5 56.5 54.5 60 51.5C57 57 53 60 49 61.5L51 64C51 64 62.5 64 70 55C68.5 37 61.5 26.5 61.5 26.5ZM30 49C27 49 24.5 46 24.5 42.5C24.5 39 27 36 30 36C33 36 35.5 39 35.5 42.5C35.5 46 33 49 30 49ZM50 49C47 49 44.5 46 44.5 42.5C44.5 39 47 36 50 36C53 36 55.5 39 55.5 42.5C55.5 46 53 49 50 49Z" fill="white"/>
+  
+  <!-- Download Arrow -->
+  <path d="M40 10L40 30M40 30L33 23M40 30L47 23" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Text Bubble -->
+  <rect x="25" y="60" width="30" height="15" rx="5" fill="#57F287"/>
+  <rect x="28" y="65" width="24" height="2" rx="1" fill="white"/>
+  <rect x="28" y="69" width="18" height="2" rx="1" fill="white"/>
+</svg>

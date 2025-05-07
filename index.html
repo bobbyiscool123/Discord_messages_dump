@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Messages Dump - Documentation</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #5865F2; /* Discord blue */
+            --secondary-color: #57F287; /* Discord green */
+            --tertiary-color: #FEE75C; /* Discord yellow */
+            --dark-color: #2C2F33; /* Discord dark */
+            --light-color: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+            padding-top: 56px;
+        }
+        
+        .navbar {
+            background-color: var(--dark-color);
+        }
+        
+        .navbar-brand {
+            color: var(--light-color);
+            font-weight: bold;
+        }
+        
+        .nav-link {
+            color: var(--light-color);
+        }
+        
+        .hero {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .card {
+            margin-bottom: 1.5rem;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        /* SVG Diagram Styles */
+        .diagram-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .zoom-controls {
+            margin-bottom: 1rem;
+        }
+        
+        .component {
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        
+        .component:hover {
+            opacity: 0.8;
+        }
+        
+        .component-tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            max-width: 250px;
+            z-index: 100;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Discord Messages Dump</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#overview">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#architecture">Architecture</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#installation">Installation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#usage">Usage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/bobbyiscool123/Discord_messages_dump" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container text-center">
+            <h1>Discord Messages Dump</h1>
+            <p class="lead">A professional tool to download and save message history from Discord channels</p>
+        </div>
+    </header>
+
+    <!-- Overview Section -->
+    <section id="overview" class="section">
+        <div class="container">
+            <h2 class="section-title">Overview</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Discord Messages Dump is a Python package that provides tools to download and save message history from Discord channels. It includes both a GUI script and a command-line interface for flexibility. The package uses the Discord API to fetch messages and can output them in various formats including text, JSON, CSV, and Markdown.</p>
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Message retrieval from Discord channels</li>
+                        <li>Multiple output formats (text, JSON, CSV, Markdown)</li>
+                        <li>Command-line interface with powerful options</li>
+                        <li>GUI file dialog for selecting output location</li>
+                        <li>Proper rate limit handling with exponential backoff</li>
+                        <li>Progress bar for visual feedback</li>
+                        <li>Detailed logging for troubleshooting</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Installation</div>
+                        <div class="card-body">
+                            <pre><code>git clone https://github.com/bobbyiscool123/Discord_messages_dump.git
+cd Discord_messages_dump
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Linux/macOS
+pip install -r requirements.txt
+pip install -e .</code></pre>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Quick Usage</div>
+                        <div class="card-body">
+                            <pre><code># Using the CLI
+discord-dump dump --token "YOUR_TOKEN" --channel-id "YOUR_CHANNEL_ID" --format json --output-file messages.json
+
+# Using the GUI script
+python Dump.py</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Architecture</h2>
+            <p class="text-center mb-4">The diagram below shows the architecture of the Discord Messages Dump package:</p>
+            
+            <div class="zoom-controls text-center">
+                <button class="btn btn-sm btn-outline-primary" onclick="zoomDiagram(0.5)">50%</button>
+                <button class="btn btn-sm btn-primary" onclick="zoomDiagram(1)">100%</button>
+                <button class="btn btn-sm btn-outline-primary" onclick="zoomDiagram(1.5)">150%</button>
+                <button class="btn btn-sm btn-outline-primary" onclick="zoomDiagram(2)">200%</button>
+            </div>
+            
+            <div class="diagram-container" id="diagram-container">
+                <!-- SVG Diagram will be inserted here -->
+            </div>
+            
+            <div class="component-tooltip" id="component-tooltip"></div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="section">
+        <div class="container">
+            <h2 class="section-title">Installation</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4>Prerequisites</h4>
+                    <ul>
+                        <li>Python 3.7 or higher</li>
+                        <li>Required packages: requests, python-dotenv, click, tqdm</li>
+                        <li>Discord user token</li>
+                        <li>Discord channel ID</li>
+                    </ul>
+                    
+                    <h4>Installation Steps</h4>
+                    <ol>
+                        <li>Clone the repository from GitHub</li>
+                        <li>Create and activate a virtual environment</li>
+                        <li>Install the required dependencies</li>
+                        <li>Set up your environment variables</li>
+                        <li>Install the package in development mode (optional)</li>
+                    </ol>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">Detailed Installation</div>
+                        <div class="card-body">
+                            <pre><code># Clone the repository
+git clone https://github.com/bobbyiscool123/Discord_messages_dump.git
+cd Discord_messages_dump
+
+# Create and activate a virtual environment
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Linux/macOS
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your Discord token and channel ID
+
+# Install in development mode (optional)
+pip install -e .</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Section -->
+    <section id="usage" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Usage</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Command-Line Interface</h4>
+                    <p>The package provides a powerful command-line interface:</p>
+                    <pre><code>discord-dump dump --token "YOUR_TOKEN" --channel-id "YOUR_CHANNEL_ID" --format json --output-file messages.json</code></pre>
+                    
+                    <h5>Available Options:</h5>
+                    <ul>
+                        <li><code>--token TEXT</code> - Discord token</li>
+                        <li><code>--channel-id TEXT</code> - Channel ID</li>
+                        <li><code>--format [text|json|csv|markdown]</code> - Output format</li>
+                        <li><code>--output-file TEXT</code> - Output file path</li>
+                        <li><code>--limit INTEGER</code> - Maximum number of messages</li>
+                        <li><code>--no-gui</code> - Disable GUI file dialog</li>
+                        <li><code>--verbose</code> - Enable verbose logging</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>GUI Script</h4>
+                    <p>You can also use the GUI script for a more interactive experience:</p>
+                    <pre><code>python Dump.py</code></pre>
+                    
+                    <p>The script will:</p>
+                    <ol>
+                        <li>Load your Discord token and channel ID from the .env file</li>
+                        <li>Let you select the output format (text, JSON, CSV, Markdown)</li>
+                        <li>Open a file dialog to choose where to save the output</li>
+                        <li>Fetch the messages and save them to the selected file</li>
+                    </ol>
+                    
+                    <div class="alert alert-info">
+                        <strong>Note:</strong> Make sure you have set up your .env file with your Discord token and channel ID before running the script.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2023 Discord Messages Dump. All rights reserved.</p>
+            <p>
+                <a href="https://github.com/bobbyiscool123/Discord_messages_dump" class="text-light me-3" target="_blank">GitHub</a>
+                <a href="#" class="text-light me-3">Documentation</a>
+                <a href="#" class="text-light">License</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS for SVG Diagram -->
+    <script>
+        // SVG Diagram creation and interaction
+        document.addEventListener('DOMContentLoaded', function() {
+            createArchitectureDiagram();
+            setupTooltips();
+        });
+
+        function createArchitectureDiagram() {
+            const container = document.getElementById('diagram-container');
+            
+            // Create SVG element
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '800');
+            svg.setAttribute('height', '600');
+            svg.setAttribute('viewBox', '0 0 800 600');
+            svg.id = 'architecture-diagram';
+            svg.setAttribute('aria-labelledby', 'diagram-title');
+            svg.setAttribute('role', 'img');
+            
+            // Add title for accessibility
+            const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+            title.id = 'diagram-title';
+            title.textContent = 'Discord Messages Dump Architecture Diagram';
+            svg.appendChild(title);
+            
+            // Add description for accessibility
+            const desc = document.createElementNS('http://www.w3.org/2000/svg', 'desc');
+            desc.textContent = 'Architecture diagram showing the components of the Discord Messages Dump package and their relationships.';
+            svg.appendChild(desc);
+            
+            // Define components
+            const components = [
+                { id: 'api', x: 150, y: 150, width: 180, height: 80, color: '#5865F2', name: 'Discord API Client', description: 'Handles communication with Discord API, fetches messages, and manages rate limits.' },
+                { id: 'processor', x: 400, y: 150, width: 180, height: 80, color: '#57F287', name: 'Message Processor', description: 'Processes raw message data and formats it into various output formats (text, JSON, CSV, Markdown).' },
+                { id: 'file_handler', x: 650, y: 150, width: 180, height: 80, color: '#FEE75C', name: 'File Handler', description: 'Manages file operations, including opening file dialogs and saving content to files.' },
+                { id: 'cli', x: 275, y: 300, width: 180, height: 80, color: '#EB459E', name: 'Command-Line Interface', description: 'Provides a CLI using Click with various options for fetching and saving messages.' },
+                { id: 'gui', x: 525, y: 300, width: 180, height: 80, color: '#ED4245', name: 'GUI Script', description: 'Provides a graphical interface for selecting output format and file location.' },
+                { id: 'config', x: 400, y: 450, width: 180, height: 80, color: '#9B84EC', name: 'Configuration', description: 'Manages environment variables, validates input, and provides default values.' }
+            ];
+            
+            // Define connections
+            const connections = [
+                { from: 'cli', to: 'api', label: 'uses' },
+                { from: 'cli', to: 'processor', label: 'uses' },
+                { from: 'cli', to: 'file_handler', label: 'uses' },
+                { from: 'gui', to: 'api', label: 'uses' },
+                { from: 'gui', to: 'processor', label: 'uses' },
+                { from: 'gui', to: 'file_handler', label: 'uses' },
+                { from: 'processor', to: 'api', label: 'receives data' },
+                { from: 'cli', to: 'config', label: 'loads' },
+                { from: 'gui', to: 'config', label: 'loads' }
+            ];
+            
+            // Draw components
+            components.forEach(comp => {
+                const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                group.classList.add('component');
+                group.setAttribute('data-id', comp.id);
+                group.setAttribute('data-name', comp.name);
+                group.setAttribute('data-description', comp.description);
+                
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('x', comp.x);
+                rect.setAttribute('y', comp.y);
+                rect.setAttribute('width', comp.width);
+                rect.setAttribute('height', comp.height);
+                rect.setAttribute('rx', '10');
+                rect.setAttribute('ry', '10');
+                rect.setAttribute('fill', comp.color);
+                rect.setAttribute('stroke', '#333');
+                rect.setAttribute('stroke-width', '2');
+                
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', comp.x + comp.width / 2);
+                text.setAttribute('y', comp.y + comp.height / 2);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'middle');
+                text.setAttribute('fill', '#fff');
+                text.setAttribute('font-weight', 'bold');
+                text.textContent = comp.name;
+                
+                group.appendChild(rect);
+                group.appendChild(text);
+                svg.appendChild(group);
+            });
+            
+            // Draw connections
+            connections.forEach(conn => {
+                const fromComp = components.find(c => c.id === conn.from);
+                const toComp = components.find(c => c.id === conn.to);
+                
+                // Calculate start and end points
+                const startX = fromComp.x + fromComp.width / 2;
+                const startY = fromComp.y;
+                const endX = toComp.x + toComp.width / 2;
+                const endY = toComp.y + toComp.height;
+                
+                // Draw arrow
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                const d = `M${startX},${startY} C${startX},${startY - 50} ${endX},${endY + 50} ${endX},${endY}`;
+                path.setAttribute('d', d);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', '#333');
+                path.setAttribute('stroke-width', '2');
+                path.setAttribute('marker-end', 'url(#arrowhead)');
+                
+                // Add label
+                const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                const pathId = `path-${conn.from}-${conn.to}`;
+                path.id = pathId;
+                
+                const textPathElement = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
+                textPathElement.setAttribute('href', `#${pathId}`);
+                textPathElement.setAttribute('startOffset', '50%');
+                textPathElement.textContent = conn.label;
+                
+                textPath.setAttribute('text-anchor', 'middle');
+                textPath.setAttribute('fill', '#333');
+                textPath.appendChild(textPathElement);
+                
+                svg.appendChild(path);
+                svg.appendChild(textPath);
+            });
+            
+            // Add arrowhead marker
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+            marker.id = 'arrowhead';
+            marker.setAttribute('viewBox', '0 0 10 10');
+            marker.setAttribute('refX', '5');
+            marker.setAttribute('refY', '5');
+            marker.setAttribute('markerWidth', '6');
+            marker.setAttribute('markerHeight', '6');
+            marker.setAttribute('orient', 'auto');
+            
+            const markerPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            markerPath.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+            markerPath.setAttribute('fill', '#333');
+            
+            marker.appendChild(markerPath);
+            defs.appendChild(marker);
+            svg.appendChild(defs);
+            
+            container.appendChild(svg);
+        }
+        
+        function setupTooltips() {
+            const components = document.querySelectorAll('.component');
+            const tooltip = document.getElementById('component-tooltip');
+            
+            components.forEach(comp => {
+                comp.addEventListener('mouseover', function(e) {
+                    const name = this.getAttribute('data-name');
+                    const description = this.getAttribute('data-description');
+                    
+                    tooltip.innerHTML = `<strong>${name}</strong><br>${description}`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = `${e.pageX + 10}px`;
+                    tooltip.style.top = `${e.pageY + 10}px`;
+                });
+                
+                comp.addEventListener('mousemove', function(e) {
+                    tooltip.style.left = `${e.pageX + 10}px`;
+                    tooltip.style.top = `${e.pageY + 10}px`;
+                });
+                
+                comp.addEventListener('mouseout', function() {
+                    tooltip.style.display = 'none';
+                });
+            });
+        }
+        
+        function zoomDiagram(scale) {
+            const svg = document.getElementById('architecture-diagram');
+            const width = 800 * scale;
+            const height = 600 * scale;
+            
+            svg.setAttribute('width', width);
+            svg.setAttribute('height', height);
+        }
+    </script>
+</body>
+</html>
