@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation - Discord Messages Dump</title>
     <meta name="description" content="Comprehensive documentation for the Discord Messages Dump package, including API reference, usage examples, and configuration options.">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/styles.css">
-    
+
     <!-- Prism.js for code highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
@@ -46,7 +46,7 @@
             </button>
         </div>
     </nav>
-    
+
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="mobile-menu">
         <ul>
@@ -85,14 +85,15 @@
                             <li><a href="#examples">Examples</a></li>
                             <li><a href="#faq">FAQ</a></li>
                         </ul>
-                        
+
                         <h4 class="mt-4">API Modules</h4>
                         <ul class="docs-nav">
                             <li><a href="api.html#discord-api-client">DiscordApiClient</a></li>
                             <li><a href="api.html#message-processor">MessageProcessor</a></li>
-                            <li><a href="api.html#file-handler">FileHandler</a></li>
-                            <li><a href="api.html#exceptions">Exceptions</a></li>
-                            <li><a href="api.html#logging">Logging</a></li>
+                            <li><a href="api.html#file-processor">FileProcessor</a></li>
+                            <li><a href="api.html#error-handling">ErrorHandling</a></li>
+                            <li><a href="api.html#configuration">Configuration</a></li>
+                            <li><a href="api.html#data-storage">DataStorage</a></li>
                         </ul>
                     </div>
                 </div>
@@ -101,7 +102,7 @@
                         <section id="getting-started">
                             <h2>Getting Started</h2>
                             <p>Discord Messages Dump is a Python package that allows you to download and save message history from Discord channels. This guide will help you get started with the package.</p>
-                            
+
                             <h3>Installation</h3>
                             <p>To install Discord Messages Dump, follow these steps:</p>
                             <pre><code class="language-bash"># Clone the repository
@@ -118,14 +119,14 @@ pip install -r requirements.txt
 
 # Install in development mode (optional)
 pip install -e .</code></pre>
-                            
+
                             <h3>Configuration</h3>
                             <p>Before using Discord Messages Dump, you need to set up your Discord token and channel ID. Create a <code>.env</code> file in the root directory of the project with the following content:</p>
                             <pre><code class="language-bash">DISCORD_TOKEN="YOUR_DISCORD_TOKEN"
 DISCORD_CHANNEL_ID="YOUR_DISCORD_CHANNEL_ID"</code></pre>
-                            
+
                             <p>Replace <code>YOUR_DISCORD_TOKEN</code> and <code>YOUR_DISCORD_CHANNEL_ID</code> with your actual values.</p>
-                            
+
                             <div class="alert alert-info">
                                 <strong>Note:</strong> To obtain your Discord token, follow these steps:
                                 <ol>
@@ -138,26 +139,26 @@ DISCORD_CHANNEL_ID="YOUR_DISCORD_CHANNEL_ID"</code></pre>
                                     <li>The value of that header is your user token</li>
                                 </ol>
                             </div>
-                            
+
                             <h3>Basic Usage</h3>
                             <p>You can use Discord Messages Dump in two ways: through the command-line interface or the GUI script.</p>
-                            
+
                             <h4>Command-Line Interface</h4>
                             <pre><code class="language-bash">discord-dump dump --token "YOUR_TOKEN" --channel-id "YOUR_CHANNEL_ID" --format json --output-file messages.json</code></pre>
-                            
+
                             <h4>GUI Script</h4>
                             <pre><code class="language-bash">python Dump.py</code></pre>
-                            
+
                             <p>The GUI script will open a file dialog to select where to save the output file.</p>
                         </section>
-                        
+
                         <section id="api-reference" class="mt-5">
                             <h2>API Reference</h2>
                             <p>Discord Messages Dump provides a Python API that you can use in your own scripts. Here's a brief overview of the main classes:</p>
-                            
+
                             <h3>DiscordApiClient</h3>
                             <p>The <code>DiscordApiClient</code> class handles communication with the Discord API. It provides methods to fetch messages from a channel.</p>
-                            
+
                             <pre><code class="language-python">from discord_messages_dump import DiscordApiClient
 
 # Create a client
@@ -169,12 +170,12 @@ messages = client.get_messages(channel_id="YOUR_CHANNEL_ID", limit=100)
 # Print the messages
 for message in messages:
     print(f"{message['author']['username']}: {message['content']}")</code></pre>
-                            
+
                             <p>For more details, see the <a href="api.html#discord-api-client">DiscordApiClient API reference</a>.</p>
-                            
+
                             <h3>MessageProcessor</h3>
                             <p>The <code>MessageProcessor</code> class processes raw message data and formats it into various output formats.</p>
-                            
+
                             <pre><code class="language-python">from discord_messages_dump import DiscordApiClient, MessageProcessor
 
 # Get messages
@@ -189,52 +190,52 @@ text_output = processor.format_text()
 json_output = processor.format_json()
 csv_output = processor.format_csv()
 markdown_output = processor.format_markdown()</code></pre>
-                            
-                            <p>For more details, see the <a href="api.html#message-processor">MessageProcessor API reference</a>.</p>
-                            
-                            <h3>FileHandler</h3>
-                            <p>The <code>FileHandler</code> class manages file operations, including opening file dialogs and saving content to files.</p>
-                            
-                            <pre><code class="language-python">from discord_messages_dump import FileHandler
 
-# Create a file handler
-file_handler = FileHandler()
+                            <p>For more details, see the <a href="api.html#message-processor">MessageProcessor API reference</a>.</p>
+
+                            <h3>FileProcessor</h3>
+                            <p>The <code>FileProcessor</code> class manages file operations, including opening file dialogs and saving content to files.</p>
+
+                            <pre><code class="language-python">from discord_messages_dump import FileProcessor
+
+# Create a file processor
+file_processor = FileProcessor()
 
 # Save content to a file
-file_handler.save_content("Hello, world!", "output.txt")
+file_processor.save_content("Hello, world!", "output.txt")
 
 # Open a file dialog
-output_file = file_handler.open_save_dialog("output.txt", "text")</code></pre>
-                            
-                            <p>For more details, see the <a href="api.html#file-handler">FileHandler API reference</a>.</p>
+output_file = file_processor.open_save_dialog("output.txt", "text")</code></pre>
+
+                            <p>For more details, see the <a href="api.html#file-processor">FileProcessor API reference</a>.</p>
                         </section>
-                        
+
                         <section id="cli-reference" class="mt-5">
                             <h2>CLI Reference</h2>
                             <p>Discord Messages Dump provides a command-line interface (CLI) that you can use to fetch and save messages from Discord channels.</p>
-                            
+
                             <h3>Commands</h3>
                             <p>The CLI provides the following commands:</p>
-                            
+
                             <h4>dump</h4>
                             <p>Fetch messages from a Discord channel and save them to a file.</p>
-                            
+
                             <pre><code class="language-bash">discord-dump dump --token "YOUR_TOKEN" --channel-id "YOUR_CHANNEL_ID" --format json --output-file messages.json</code></pre>
-                            
+
                             <h5>Options:</h5>
                             <ul>
-                                <li><code>--token TEXT</code> - Discord token</li>
-                                <li><code>--channel-id TEXT</code> - Channel ID</li>
-                                <li><code>--format [text|json|csv|markdown]</code> - Output format</li>
-                                <li><code>--output-file TEXT</code> - Output file path</li>
-                                <li><code>--limit INTEGER</code> - Maximum number of messages</li>
-                                <li><code>--no-gui</code> - Disable GUI file dialog</li>
-                                <li><code>--verbose</code> - Enable verbose logging</li>
+                                <li><code class="command">--token TEXT</code> - Discord token</li>
+                                <li><code class="command">--channel-id TEXT</code> - Channel ID</li>
+                                <li><code class="command">--format [text|json|csv|markdown]</code> - Output format</li>
+                                <li><code class="command">--output-file TEXT</code> - Output file path</li>
+                                <li><code class="command">--limit INTEGER</code> - Maximum number of messages</li>
+                                <li><code class="command">--no-gui</code> - Disable GUI file dialog</li>
+                                <li><code class="command">--verbose</code> - Enable verbose logging</li>
                             </ul>
-                            
+
                             <h4>install-completion</h4>
                             <p>Install command completion for bash/zsh.</p>
-                            
+
                             <pre><code class="language-bash">discord-dump install-completion</code></pre>
                         </section>
                     </div>
@@ -269,8 +270,20 @@ output_file = file_handler.open_save_dialog("output.txt", "text")</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 Discord Messages Dump. All rights reserved.</p>
+                <p>&copy; <span id="current-year">2023</span> Discord Messages Dump. All rights reserved.</p>
+                <p class="mt-2">Version 1.0.0 | Last updated: <span id="last-updated">June 2023</span></p>
             </div>
+
+            <script>
+                // Update copyright year
+                document.getElementById('current-year').textContent = new Date().getFullYear();
+
+                // Update last updated date
+                document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-US', {
+                    month: 'long',
+                    year: 'numeric'
+                });
+            </script>
         </div>
     </footer>
 

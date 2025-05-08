@@ -148,10 +148,10 @@
             <p class="text-center mb-4">The diagram below shows the architecture of the Discord Messages Dump package:</p>
 
             <div class="zoom-controls text-center mb-3">
-                <button class="btn btn-sm btn-outline-primary zoom-btn" data-scale="0.5">50%</button>
-                <button class="btn btn-sm btn-primary zoom-btn active" data-scale="1">100%</button>
-                <button class="btn btn-sm btn-outline-primary zoom-btn" data-scale="1.5">150%</button>
-                <button class="btn btn-sm btn-outline-primary zoom-btn" data-scale="2">200%</button>
+                <button class="btn btn-sm btn-outline-primary">50%</button>
+                <button class="btn btn-sm btn-primary">100%</button>
+                <button class="btn btn-sm btn-outline-primary">150%</button>
+                <button class="btn btn-sm btn-outline-primary">200%</button>
             </div>
 
             <div class="diagram-container" id="diagram-container">
@@ -166,22 +166,22 @@
                     <ul>
                         <li><strong>Discord API Client</strong> - Handles communication with Discord API</li>
                         <li><strong>Message Processor</strong> - Formats messages into various output formats</li>
-                        <li><strong>File Handler</strong> - Manages file operations and dialogs</li>
+                        <li><strong>File Processor</strong> - Manages file operations and dialogs</li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h3>User Interfaces</h3>
                     <ul>
-                        <li><strong>Command-Line Interface</strong> - Provides CLI using Click</li>
-                        <li><strong>GUI Script</strong> - Provides graphical interface</li>
+                        <li><strong>Command Line Interface</strong> - Provides CLI using Click</li>
+                        <li><strong>GUI Application</strong> - Provides graphical interface</li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h3>Supporting Components</h3>
                     <ul>
                         <li><strong>Configuration</strong> - Manages environment variables</li>
-                        <li><strong>Exception Handling</strong> - Custom exceptions for error handling</li>
-                        <li><strong>Logging</strong> - Detailed logging for troubleshooting</li>
+                        <li><strong>Error Handling</strong> - Manages errors and provides fallback mechanisms</li>
+                        <li><strong>Data Storage</strong> - Handles temporary data storage and caching</li>
                     </ul>
                 </div>
             </div>
@@ -252,13 +252,13 @@ pip install -e .</code></pre>
 
                     <h4 class="mt-3">Available Options:</h4>
                     <ul>
-                        <li><code>--token TEXT</code> - Discord token</li>
-                        <li><code>--channel-id TEXT</code> - Channel ID</li>
-                        <li><code>--format [text|json|csv|markdown]</code> - Output format</li>
-                        <li><code>--output-file TEXT</code> - Output file path</li>
-                        <li><code>--limit INTEGER</code> - Maximum number of messages</li>
-                        <li><code>--no-gui</code> - Disable GUI file dialog</li>
-                        <li><code>--verbose</code> - Enable verbose logging</li>
+                        <li><code class="command">--token TEXT</code> - Discord token</li>
+                        <li><code class="command">--channel-id TEXT</code> - Channel ID</li>
+                        <li><code class="command">--format [text|json|csv|markdown]</code> - Output format</li>
+                        <li><code class="command">--output-file TEXT</code> - Output file path</li>
+                        <li><code class="command">--limit INTEGER</code> - Maximum number of messages</li>
+                        <li><code class="command">--no-gui</code> - Disable GUI file dialog</li>
+                        <li><code class="command">--verbose</code> - Enable verbose logging</li>
                     </ul>
                 </div>
                 <div class="col-md-6">
@@ -308,8 +308,20 @@ pip install -e .</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 Discord Messages Dump. All rights reserved.</p>
+                <p>&copy; <span id="current-year">2023</span> Discord Messages Dump. All rights reserved.</p>
+                <p class="mt-2">Version 1.0.0 | Last updated: <span id="last-updated">June 2023</span></p>
             </div>
+
+            <script>
+                // Update copyright year
+                document.getElementById('current-year').textContent = new Date().getFullYear();
+
+                // Update last updated date
+                document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-US', {
+                    month: 'long',
+                    year: 'numeric'
+                });
+            </script>
         </div>
     </footer>
 
