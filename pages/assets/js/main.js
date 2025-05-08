@@ -80,242 +80,12 @@ function initNavbar() {
 
 /**
  * Initialize the architecture diagram
- * - Creates SVG diagram
- * - Adds interactive elements
+ * - Sets up tooltips for the static SVG
  * - Implements zoom functionality
  */
 function initArchitectureDiagram() {
     const diagramContainer = document.getElementById('diagram-container');
     if (!diagramContainer) return;
-
-    // Create SVG element
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '1000');
-    svg.setAttribute('height', '700');
-    svg.setAttribute('viewBox', '0 0 1000 700');
-    svg.id = 'architecture-diagram';
-    svg.setAttribute('aria-labelledby', 'diagram-title');
-    svg.setAttribute('role', 'img');
-
-    // Add title for accessibility
-    const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-    title.id = 'diagram-title';
-    title.textContent = 'Discord Messages Dump Architecture Diagram';
-    svg.appendChild(title);
-
-    // Add description for accessibility
-    const desc = document.createElementNS('http://www.w3.org/2000/svg', 'desc');
-    desc.textContent = 'Architecture diagram showing the components of the Discord Messages Dump package and their relationships.';
-    svg.appendChild(desc);
-
-    // Add legend
-    const legend = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    legend.setAttribute('transform', 'translate(20, 20)');
-
-    const legendTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    legendTitle.setAttribute('x', '0');
-    legendTitle.setAttribute('y', '0');
-    legendTitle.setAttribute('font-weight', 'bold');
-    legendTitle.textContent = 'Legend:';
-    legend.appendChild(legendTitle);
-
-    const legendItems = [
-        { color: '#5865F2', text: 'Core Components' },
-        { color: '#EB459E', text: 'User Interfaces' },
-        { color: '#9B84EC', text: 'Supporting Components' }
-    ];
-
-    legendItems.forEach((item, index) => {
-        const y = 25 * (index + 1);
-
-        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rect.setAttribute('x', '0');
-        rect.setAttribute('y', y - 15);
-        rect.setAttribute('width', '15');
-        rect.setAttribute('height', '15');
-        rect.setAttribute('fill', item.color);
-        rect.setAttribute('stroke', '#333');
-        rect.setAttribute('stroke-width', '1');
-
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', '25');
-        text.setAttribute('y', y);
-        text.textContent = item.text;
-
-        legend.appendChild(rect);
-        legend.appendChild(text);
-    });
-
-    svg.appendChild(legend);
-
-    // Define components with consistent naming and styling
-    const components = [
-        { id: 'api', x: 200, y: 150, width: 180, height: 80, color: '#5865F2', name: 'Discord API Client', description: 'Handles communication with Discord API, fetches messages, and manages rate limits.' },
-        { id: 'processor', x: 500, y: 150, width: 180, height: 80, color: '#5865F2', name: 'Message Processor', description: 'Processes raw message data and formats it into various output formats (text, JSON, CSV, Markdown).' },
-        { id: 'file_processor', x: 800, y: 150, width: 180, height: 80, color: '#5865F2', name: 'File Processor', description: 'Manages file operations, including opening file dialogs and saving content to files.' },
-        { id: 'cli', x: 350, y: 300, width: 180, height: 80, color: '#EB459E', name: 'Command Line Interface', description: 'Provides a CLI using Click with various options for fetching and saving messages.' },
-        { id: 'gui', x: 650, y: 300, width: 180, height: 80, color: '#EB459E', name: 'GUI Application', description: 'Provides a graphical interface for selecting output format and file location.' },
-        { id: 'config', x: 400, y: 450, width: 180, height: 80, color: '#9B84EC', name: 'Configuration', description: 'Manages environment variables, validates input, and provides default values.' },
-        { id: 'error', x: 650, y: 450, width: 180, height: 80, color: '#9B84EC', name: 'Error Handling', description: 'Manages error handling and provides fallback mechanisms.' }
-    ];
-
-    // Define connections with consistent styling
-    const connections = [
-        { from: 'cli', to: 'api', label: 'uses', type: 'main' },
-        { from: 'cli', to: 'processor', label: 'uses', type: 'main' },
-        { from: 'cli', to: 'file_processor', label: 'uses', type: 'main' },
-        { from: 'gui', to: 'api', label: 'uses', type: 'main' },
-        { from: 'gui', to: 'processor', label: 'uses', type: 'main' },
-        { from: 'gui', to: 'file_processor', label: 'uses', type: 'main' },
-        { from: 'processor', to: 'api', label: 'receives data', type: 'data' },
-        { from: 'cli', to: 'config', label: 'loads', type: 'config' },
-        { from: 'gui', to: 'config', label: 'loads', type: 'config' },
-        { from: 'cli', to: 'error', label: 'reports', type: 'error' },
-        { from: 'gui', to: 'error', label: 'reports', type: 'error' }
-    ];
-
-    // Add arrowhead markers with different colors
-    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-
-    const markerTypes = [
-        { id: 'arrowhead-main', color: '#333' },
-        { id: 'arrowhead-data', color: '#0066cc' },
-        { id: 'arrowhead-config', color: '#009933' },
-        { id: 'arrowhead-error', color: '#cc0000' }
-    ];
-
-    markerTypes.forEach(markerType => {
-        const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-        marker.id = markerType.id;
-        marker.setAttribute('viewBox', '0 0 10 10');
-        marker.setAttribute('refX', '5');
-        marker.setAttribute('refY', '5');
-        marker.setAttribute('markerWidth', '6');
-        marker.setAttribute('markerHeight', '6');
-        marker.setAttribute('orient', 'auto');
-
-        const markerPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        markerPath.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
-        markerPath.setAttribute('fill', markerType.color);
-
-        marker.appendChild(markerPath);
-        defs.appendChild(marker);
-    });
-
-    svg.appendChild(defs);
-
-    // Draw connections with improved styling
-    connections.forEach(conn => {
-        const fromComp = components.find(c => c.id === conn.from);
-        const toComp = components.find(c => c.id === conn.to);
-
-        if (!fromComp || !toComp) return;
-
-        // Calculate start and end points
-        const startX = fromComp.x + fromComp.width / 2;
-        const startY = fromComp.y;
-        const endX = toComp.x + toComp.width / 2;
-        const endY = toComp.y + toComp.height;
-
-        // Set connection style based on type
-        let strokeColor, strokeWidth, dashArray;
-
-        switch(conn.type) {
-            case 'data':
-                strokeColor = '#0066cc';
-                strokeWidth = 2.5;
-                dashArray = '';
-                break;
-            case 'config':
-                strokeColor = '#009933';
-                strokeWidth = 2;
-                dashArray = '';
-                break;
-            case 'error':
-                strokeColor = '#cc0000';
-                strokeWidth = 2;
-                dashArray = '5,3';
-                break;
-            default:
-                strokeColor = '#333';
-                strokeWidth = 2;
-                dashArray = '';
-        }
-
-        // Draw arrow
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        const d = `M${startX},${startY} C${startX},${startY - 50} ${endX},${endY + 50} ${endX},${endY}`;
-        path.setAttribute('d', d);
-        path.setAttribute('fill', 'none');
-        path.setAttribute('stroke', strokeColor);
-        path.setAttribute('stroke-width', strokeWidth);
-        path.setAttribute('marker-end', `url(#arrowhead-${conn.type})`);
-
-        if (dashArray) {
-            path.setAttribute('stroke-dasharray', dashArray);
-        }
-
-        // Add label with improved visibility
-        const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        const pathId = `path-${conn.from}-${conn.to}`;
-        path.id = pathId;
-
-        const textPathElement = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
-        textPathElement.setAttribute('href', `#${pathId}`);
-        textPathElement.setAttribute('startOffset', '50%');
-        textPathElement.textContent = conn.label;
-
-        // Add background to text for better readability
-        const textBackground = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        textBackground.setAttribute('fill', 'white');
-        textBackground.setAttribute('fill-opacity', '0.8');
-        textBackground.setAttribute('rx', '3');
-        textBackground.setAttribute('ry', '3');
-
-        textPath.setAttribute('text-anchor', 'middle');
-        textPath.setAttribute('fill', strokeColor);
-        textPath.setAttribute('font-weight', 'bold');
-        textPath.setAttribute('dy', '-5');
-        textPath.appendChild(textPathElement);
-
-        svg.appendChild(path);
-        svg.appendChild(textPath);
-    });
-
-    // Draw components with consistent styling
-    components.forEach(comp => {
-        const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        group.classList.add('component');
-        group.setAttribute('data-id', comp.id);
-        group.setAttribute('data-name', comp.name);
-        group.setAttribute('data-description', comp.description);
-
-        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rect.setAttribute('x', comp.x);
-        rect.setAttribute('y', comp.y);
-        rect.setAttribute('width', comp.width);
-        rect.setAttribute('height', comp.height);
-        rect.setAttribute('rx', '8');
-        rect.setAttribute('ry', '8');
-        rect.setAttribute('fill', comp.color);
-        rect.setAttribute('stroke', '#333');
-        rect.setAttribute('stroke-width', '2');
-
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', comp.x + comp.width / 2);
-        text.setAttribute('y', comp.y + comp.height / 2);
-        text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('dominant-baseline', 'middle');
-        text.setAttribute('fill', '#fff');
-        text.setAttribute('font-weight', 'bold');
-        text.textContent = comp.name;
-
-        group.appendChild(rect);
-        group.appendChild(text);
-        svg.appendChild(group);
-    });
-
-    diagramContainer.appendChild(svg);
 
     // Create tooltip container if it doesn't exist
     if (!document.getElementById('component-tooltip')) {
@@ -326,8 +96,20 @@ function initArchitectureDiagram() {
         document.body.appendChild(tooltip);
     }
 
-    // Set up tooltips
-    setupDiagramTooltips();
+    // Set up tooltips for the SVG once it's loaded
+    const svgObject = document.querySelector('.architecture-svg');
+    if (svgObject) {
+        // For object tag, we need to wait for the SVG to load
+        svgObject.addEventListener('load', function() {
+            // Access the SVG document inside the object
+            const svgDoc = svgObject.contentDocument;
+            if (!svgDoc) return;
+
+            // Add tooltip functionality to components
+            const components = svgDoc.querySelectorAll('.component');
+            setupSVGTooltips(components);
+        });
+    }
 
     // Set up zoom controls with active state
     const zoomButtons = document.querySelectorAll('.zoom-controls button');
@@ -370,12 +152,11 @@ function initArchitectureDiagram() {
 }
 
 /**
- * Set up tooltips for the architecture diagram
+ * Set up tooltips for SVG components
+ * @param {NodeList} components - The SVG component elements
  */
-function setupDiagramTooltips() {
-    const components = document.querySelectorAll('.component');
+function setupSVGTooltips(components) {
     const tooltip = document.getElementById('component-tooltip');
-
     if (!tooltip || !components.length) return;
 
     // Add CSS for tooltip if not already in stylesheet
@@ -403,15 +184,6 @@ function setupDiagramTooltips() {
                 color: #5865F2;
                 border-bottom: 1px solid #eee;
                 padding-bottom: 3px;
-            }
-
-            .component {
-                cursor: pointer;
-                transition: opacity 0.3s ease;
-            }
-
-            .component:hover {
-                opacity: 0.9;
             }
         `;
         document.head.appendChild(style);
@@ -465,19 +237,23 @@ function setupDiagramTooltips() {
     });
 }
 
+
+
 /**
  * Zoom the architecture diagram
  * @param {number} scale - The zoom scale (0.5, 1, 1.5, 2)
  */
 function zoomDiagram(scale) {
-    const svg = document.getElementById('architecture-diagram');
-    if (!svg) return;
+    // Get the SVG object element
+    const svgObject = document.querySelector('.architecture-svg');
+    if (!svgObject) return;
 
+    // Set the width and height based on scale
     const width = 1000 * scale;
     const height = 700 * scale;
 
-    svg.setAttribute('width', width);
-    svg.setAttribute('height', height);
+    svgObject.style.width = `${width}px`;
+    svgObject.style.height = `${height}px`;
 
     // Center the diagram in the container
     const diagramContainer = document.getElementById('diagram-container');
@@ -485,23 +261,7 @@ function zoomDiagram(scale) {
         diagramContainer.style.display = 'flex';
         diagramContainer.style.justifyContent = 'center';
         diagramContainer.style.alignItems = 'center';
-    }
-
-    // Add version information
-    const versionText = svg.querySelector('#version-text');
-    if (!versionText) {
-        const versionGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        versionGroup.setAttribute('transform', 'translate(950, 680)');
-
-        const versionTextElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        versionTextElement.id = 'version-text';
-        versionTextElement.setAttribute('text-anchor', 'end');
-        versionTextElement.setAttribute('font-size', '12');
-        versionTextElement.setAttribute('fill', '#666');
-        versionTextElement.textContent = 'v1.0.0 - Last updated: ' + new Date().toLocaleDateString();
-
-        versionGroup.appendChild(versionTextElement);
-        svg.appendChild(versionGroup);
+        diagramContainer.style.overflow = 'auto';
     }
 
     // Update active button
