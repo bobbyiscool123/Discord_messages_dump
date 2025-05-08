@@ -76,31 +76,56 @@ footer {
     max-width: 800px;
     margin: 0 auto;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) inset;
 }
 
 .zoom-controls {
     margin-bottom: 1rem;
 }
 
+.zoom-controls button {
+    margin: 0 0.25rem;
+    min-width: 60px;
+}
+
 .component {
     cursor: pointer;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.2s ease;
 }
 
 .component:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+    transform: scale(1.02);
 }
 
 .component-tooltip {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
     font-size: 14px;
-    max-width: 250px;
-    z-index: 100;
-    display: none;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    color: #333;
+}
+
+.component-tooltip strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
 }
 
 /* Responsive adjustments */
@@ -108,11 +133,11 @@ footer {
     .hero {
         padding: 2rem 0;
     }
-    
+
     .section {
         padding: 2rem 0;
     }
-    
+
     .diagram-container {
         overflow-x: auto;
     }
@@ -136,10 +161,47 @@ pre {
     background-color: #f5f5f5;
     border-radius: 4px;
     padding: 1rem;
+    position: relative;
 }
 
 code {
     font-family: 'Courier New', Courier, monospace;
+}
+
+/* Copy Button Styles */
+.copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.copy-button:hover {
+    opacity: 1;
+    background-color: #4752c4;
+}
+
+.copy-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(88, 101, 242, 0.5);
+}
+
+.command-box {
+    position: relative;
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: auto;
 }
 
 /* Alert styles */

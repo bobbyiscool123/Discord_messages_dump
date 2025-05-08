@@ -3,27 +3,51 @@
 [![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Version](https://img.shields.io/badge/version-0.1.0-orange.svg)](https://github.com/bobbyiscool123/Discord_messages_dump)
+[![Version](https://img.shields.io/badge/version-1.0.0-orange.svg)](https://github.com/bobbyiscool123/Discord_messages_dump)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://bobbyiscool123.github.io/Discord_messages_dump/)
 
-A professional tool to download and save message history from Discord channels. This package provides both a command-line interface and a GUI script for flexibility, allowing users to fetch messages from Discord channels and save them in various formats including text, JSON, CSV, and Markdown. It handles pagination, rate limits, and provides detailed logging for troubleshooting.
+A professional tool to download and save message history from Discord channels. This package provides both a command line interface and a GUI application for flexibility, allowing users to fetch messages from Discord channels and save them in various formats including text, JSON, CSV, and Markdown. It handles pagination, rate limits, and provides detailed logging for troubleshooting.
+
+📚 **[View Documentation](https://bobbyiscool123.github.io/Discord_messages_dump/)** - Comprehensive guides and API reference
+
+## Architecture
+
+The Discord Messages Dump package is built with a modular architecture that separates concerns and promotes maintainability:
+
+```mermaid
+graph TD
+    A[Discord API Client] --> B[Message Processor]
+    B --> C[File Processor]
+    D[Command Line Interface] --> A
+    D --> B
+    D --> C
+    E[GUI Application] --> A
+    E --> B
+    E --> C
+    F[Configuration] --> D
+    F --> E
+    G[Error Handling] --> D
+    G --> E
+```
 
 ## Features
 
 * 📥 **Message Retrieval:** Fetches all messages from a given Discord channel with proper pagination
 * 🔄 **Multiple Output Formats:** Saves messages in text, JSON, CSV, or Markdown formats
-* ⌨️ **Command-Line Interface:** Powerful CLI with options for token, channel ID, output format, and more
+* ⌨️ **Command Line Interface:** Powerful CLI with options for token, channel ID, output format, and more
 * 🔒 **Secure Credential Handling:** Uses a `.env` file and optional keyring integration for secure token storage
 * 📂 **File Save Dialog:** Allows users to choose where to save the output file, including filename
 * 📄 **Pagination Support:** Handles Discord API's pagination for retrieving large message histories
 * ⏱️ **Rate Limit Handling:** Respects Discord's API rate limits with exponential backoff retry logic
 * 📊 **Progress Bar:** Visual feedback on download progress with detailed logging
 * 🔍 **Verbose Logging:** Colored console output and rotating file logs for troubleshooting
+* 🛡️ **Error Handling:** Comprehensive error handling with fallback mechanisms
 
 ## How to Use
 
 ### Prerequisites
 
-*   **Python 3.6+:** Ensure you have Python installed.
+*   **Python 3.7+:** Ensure you have Python installed.
 *   **Python Libraries:** Install the required libraries:
     ```bash
     pip install requests python-dotenv click tqdm
@@ -45,10 +69,9 @@ A professional tool to download and save message history from Discord channels. 
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <repository_url>
-    cd discord_messages_dump
+    git clone https://github.com/bobbyiscool123/Discord_messages_dump.git
+    cd Discord_messages_dump
     ```
-    (Replace `<repository_url>` with the URL of this repository).
 
 2.  **Create and Activate a Virtual Environment:**
 
@@ -109,9 +132,9 @@ A professional tool to download and save message history from Discord channels. 
         ```
     *   The script will open a file dialog prompting you to select where the output text file is saved.
 
-### Using the Command-Line Interface
+### Using the Command Line Interface
 
-The package provides a powerful command-line interface that can be used instead of the GUI script:
+The package provides a powerful command line interface that can be used instead of the GUI application:
 
 1. **Install the Package:**
    ```bash
@@ -152,6 +175,39 @@ The package provides a powerful command-line interface that can be used instead 
 3. **Set up your Discord token**: Create a `.env` file with your `DISCORD_TOKEN` and `DISCORD_CHANNEL_ID`
 4. **Run the CLI**: `python -m discord_messages_dump.cli dump --format json --output-file messages.json`
 5. **Explore the output**: Open the saved file to view your Discord messages
+
+## Workflow
+
+The following diagram illustrates the typical workflow when using Discord Messages Dump:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant CLI as Command Line Interface
+    participant GUI as GUI Application
+    participant API as Discord API Client
+    participant Processor as Message Processor
+    participant FileProc as File Processor
+
+    User->>+CLI: Run with parameters
+    alt GUI Mode
+        User->>+GUI: Launch application
+        GUI->>User: Request output format
+        User->>GUI: Select format
+        GUI->>User: Open file dialog
+        User->>GUI: Select save location
+        GUI->>+API: Request messages
+    else CLI Mode
+        CLI->>+API: Request messages
+    end
+
+    API->>API: Handle rate limits
+    API-->>-Processor: Return messages
+    Processor->>Processor: Format messages
+    Processor-->>FileProc: Formatted content
+    FileProc->>FileProc: Save to file
+    FileProc-->>User: Confirmation
+```
 
 ## Supported Discord API Features
 
