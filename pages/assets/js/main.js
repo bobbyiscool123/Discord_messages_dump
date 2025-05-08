@@ -3,6 +3,24 @@
  * Handles interactive elements and functionality for the documentation website
  */
 
+/**
+ * Debounce function to limit how often a function can be called
+ * @param {Function} func - The function to debounce
+ * @param {number} wait - The time to wait in milliseconds
+ * @returns {Function} - The debounced function
+ */
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            func.apply(context, args);
+        }, wait);
+    };
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
     initNavbar();
@@ -72,9 +90,9 @@ function initArchitectureDiagram() {
 
     // Create SVG element
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '800');
-    svg.setAttribute('height', '600');
-    svg.setAttribute('viewBox', '0 0 800 600');
+    svg.setAttribute('width', '1000');
+    svg.setAttribute('height', '700');
+    svg.setAttribute('viewBox', '0 0 1000 700');
     svg.id = 'architecture-diagram';
     svg.setAttribute('aria-labelledby', 'diagram-title');
     svg.setAttribute('role', 'img');
@@ -132,11 +150,11 @@ function initArchitectureDiagram() {
 
     // Define components with consistent naming and styling
     const components = [
-        { id: 'api', x: 150, y: 150, width: 180, height: 80, color: '#5865F2', name: 'Discord API Client', description: 'Handles communication with Discord API, fetches messages, and manages rate limits.' },
-        { id: 'processor', x: 400, y: 150, width: 180, height: 80, color: '#5865F2', name: 'Message Processor', description: 'Processes raw message data and formats it into various output formats (text, JSON, CSV, Markdown).' },
-        { id: 'file_processor', x: 650, y: 150, width: 180, height: 80, color: '#5865F2', name: 'File Processor', description: 'Manages file operations, including opening file dialogs and saving content to files.' },
-        { id: 'cli', x: 275, y: 300, width: 180, height: 80, color: '#EB459E', name: 'Command Line Interface', description: 'Provides a CLI using Click with various options for fetching and saving messages.' },
-        { id: 'gui', x: 525, y: 300, width: 180, height: 80, color: '#EB459E', name: 'GUI Application', description: 'Provides a graphical interface for selecting output format and file location.' },
+        { id: 'api', x: 200, y: 150, width: 180, height: 80, color: '#5865F2', name: 'Discord API Client', description: 'Handles communication with Discord API, fetches messages, and manages rate limits.' },
+        { id: 'processor', x: 500, y: 150, width: 180, height: 80, color: '#5865F2', name: 'Message Processor', description: 'Processes raw message data and formats it into various output formats (text, JSON, CSV, Markdown).' },
+        { id: 'file_processor', x: 800, y: 150, width: 180, height: 80, color: '#5865F2', name: 'File Processor', description: 'Manages file operations, including opening file dialogs and saving content to files.' },
+        { id: 'cli', x: 350, y: 300, width: 180, height: 80, color: '#EB459E', name: 'Command Line Interface', description: 'Provides a CLI using Click with various options for fetching and saving messages.' },
+        { id: 'gui', x: 650, y: 300, width: 180, height: 80, color: '#EB459E', name: 'GUI Application', description: 'Provides a graphical interface for selecting output format and file location.' },
         { id: 'config', x: 400, y: 450, width: 180, height: 80, color: '#9B84EC', name: 'Configuration', description: 'Manages environment variables, validates input, and provides default values.' },
         { id: 'error', x: 650, y: 450, width: 180, height: 80, color: '#9B84EC', name: 'Error Handling', description: 'Manages error handling and provides fallback mechanisms.' }
     ];
@@ -326,6 +344,29 @@ function initArchitectureDiagram() {
             zoomDiagram(scale);
         });
     });
+
+    // Auto-select appropriate zoom level based on screen size
+    function setInitialZoom() {
+        let initialScale = 1; // Default 100%
+        const screenWidth = window.innerWidth;
+
+        if (screenWidth < 576) {
+            initialScale = 0.5; // 50% for mobile
+            zoomButtons[0].click(); // Click the 50% button
+        } else if (screenWidth < 992) {
+            initialScale = 0.75; // 75% for tablets
+            // Since we don't have a 75% button, we'll just set the zoom directly
+            zoomDiagram(initialScale);
+        } else {
+            zoomButtons[1].click(); // Click the 100% button for larger screens
+        }
+    }
+
+    // Set initial zoom on load
+    setInitialZoom();
+
+    // Update zoom on window resize
+    window.addEventListener('resize', debounce(setInitialZoom, 250));
 }
 
 /**
@@ -432,8 +473,8 @@ function zoomDiagram(scale) {
     const svg = document.getElementById('architecture-diagram');
     if (!svg) return;
 
-    const width = 800 * scale;
-    const height = 600 * scale;
+    const width = 1000 * scale;
+    const height = 700 * scale;
 
     svg.setAttribute('width', width);
     svg.setAttribute('height', height);
@@ -450,7 +491,7 @@ function zoomDiagram(scale) {
     const versionText = svg.querySelector('#version-text');
     if (!versionText) {
         const versionGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        versionGroup.setAttribute('transform', 'translate(700, 580)');
+        versionGroup.setAttribute('transform', 'translate(950, 680)');
 
         const versionTextElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         versionTextElement.id = 'version-text';

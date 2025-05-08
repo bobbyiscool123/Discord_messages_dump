@@ -73,7 +73,7 @@ footer {
 /* SVG Diagram Styles */
 .diagram-container {
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     position: relative;
     display: flex;
@@ -84,6 +84,7 @@ footer {
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) inset;
+    min-height: 700px;
 }
 
 .zoom-controls {
@@ -140,6 +141,15 @@ footer {
 
     .diagram-container {
         overflow-x: auto;
+        overflow-y: auto;
+        max-width: 100%;
+        padding: 0.5rem;
+    }
+
+    /* Auto-select a smaller zoom level on mobile */
+    #architecture-diagram {
+        max-width: 100%;
+        height: auto;
     }
 }
 
