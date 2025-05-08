@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000" height="700" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+  <title>Discord Messages Dump Architecture Diagram</title>
+  <desc>Architecture diagram showing the components of the Discord Messages Dump package and their relationships.</desc>
+  
+  <!-- Definitions for arrow markers -->
+  <defs>
+    <marker id="arrowhead-main" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+    </marker>
+    <marker id="arrowhead-data" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0066cc"/>
+    </marker>
+    <marker id="arrowhead-config" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#009933"/>
+    </marker>
+    <marker id="arrowhead-error" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#cc0000"/>
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <g transform="translate(20, 20)">
+    <text x="0" y="0" font-weight="bold">Legend:</text>
+    <rect x="0" y="10" width="15" height="15" fill="#5865F2" stroke="#333" stroke-width="1"/>
+    <text x="25" y="25">Core Components</text>
+    <rect x="0" y="35" width="15" height="15" fill="#EB459E" stroke="#333" stroke-width="1"/>
+    <text x="25" y="50">User Interfaces</text>
+    <rect x="0" y="60" width="15" height="15" fill="#9B84EC" stroke="#333" stroke-width="1"/>
+    <text x="25" y="75">Supporting Components</text>
+  </g>
+  
+  <!-- Core Components -->
+  <g class="component" data-id="api" data-name="Discord API Client" data-description="Handles communication with Discord API, fetches messages, and manages rate limits.">
+    <rect x="200" y="150" width="180" height="80" rx="8" ry="8" fill="#5865F2" stroke="#333" stroke-width="2"/>
+    <text x="290" y="190" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-weight="bold">Discord API Client</text>
+  </g>
+  
+  <g class="component" data-id="processor" data-name="Message Processor" data-description="Processes raw message data and formats it into various output formats (text, JSON, CSV, Markdown).">
+    <rect x="500" y="150" width="180" height="80" rx="8" ry="8" fill="#5865F2" stroke="#333" stroke-width="2"/>
+    <text x="590" y="190" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-weight="bold">Message Processor</text>
+  </g>
+  
+  <g class="component" data-id="file_processor" data-name="File Processor" data-description="Manages file operations, including opening file dialogs and saving content to files.">
+    <rect x="800" y="150" width="180" height="80" rx="8" ry="8" fill="#5865F2" stroke="#333" stroke-width="2"/>
+    <text x="890" y="190" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-weight="bold">File Processor</text>
+  </g>
+  
+  <!-- User Interfaces -->
+  <g class="component" data-id="cli" data-name="Command Line Interface" data-description="Provides a CLI using Click with various options for fetching and saving messages.">
+    <rect x="350" y="300" width="180" height="80" rx="8" ry="8" fill="#EB459E" stroke="#333" stroke-width="2"/>
+    <text x="440" y="340" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-weight="bold">Command Line Interface</text>
+  </g>
+  
+  <g class="component" data-id="gui" data-name="GUI Application" data-description="Provides a graphical interface for selecting output format and file location.">
+    <rect x="650" y="300" width="180" height="80" rx="8" ry="8" fill="#EB459E" stroke="#333" stroke-width="2"/>
+    <text x="740" y="340" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-weight="bold">GUI Application</text>
+  </g>
+  
+  <!-- Supporting Components -->
+  <g class="component" data-id="config" data-name="Configuration" data-description="Manages environment variables, validates input, and provides default values.">
+    <rect x="400" y="450" width="180" height="80" rx="8" ry="8" fill="#9B84EC" stroke="#333" stroke-width="2"/>
+    <text x="490" y="490" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-weight="bold">Configuration</text>
+  </g>
+  
+  <g class="component" data-id="error" data-name="Error Handling" data-description="Manages error handling and provides fallback mechanisms.">
+    <rect x="650" y="450" width="180" height="80" rx="8" ry="8" fill="#9B84EC" stroke="#333" stroke-width="2"/>
+    <text x="740" y="490" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-weight="bold">Error Handling</text>
+  </g>
+  
+  <!-- Connections -->
+  <!-- CLI to API -->
+  <path id="path-cli-api" d="M440,300 C440,250 290,200 290,230" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead-main)"/>
+  <text text-anchor="middle" fill="#333" font-weight="bold">
+    <textPath href="#path-cli-api" startOffset="50%" dy="-5">uses</textPath>
+  </text>
+  
+  <!-- CLI to Processor -->
+  <path id="path-cli-processor" d="M440,300 C440,250 590,200 590,230" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead-main)"/>
+  <text text-anchor="middle" fill="#333" font-weight="bold">
+    <textPath href="#path-cli-processor" startOffset="50%" dy="-5">uses</textPath>
+  </text>
+  
+  <!-- CLI to File Processor -->
+  <path id="path-cli-file_processor" d="M440,300 C440,250 890,200 890,230" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead-main)"/>
+  <text text-anchor="middle" fill="#333" font-weight="bold">
+    <textPath href="#path-cli-file_processor" startOffset="50%" dy="-5">uses</textPath>
+  </text>
+  
+  <!-- GUI to API -->
+  <path id="path-gui-api" d="M740,300 C740,250 290,200 290,230" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead-main)"/>
+  <text text-anchor="middle" fill="#333" font-weight="bold">
+    <textPath href="#path-gui-api" startOffset="50%" dy="-5">uses</textPath>
+  </text>
+  
+  <!-- GUI to Processor -->
+  <path id="path-gui-processor" d="M740,300 C740,250 590,200 590,230" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead-main)"/>
+  <text text-anchor="middle" fill="#333" font-weight="bold">
+    <textPath href="#path-gui-processor" startOffset="50%" dy="-5">uses</textPath>
+  </text>
+  
+  <!-- GUI to File Processor -->
+  <path id="path-gui-file_processor" d="M740,300 C740,250 890,200 890,230" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead-main)"/>
+  <text text-anchor="middle" fill="#333" font-weight="bold">
+    <textPath href="#path-gui-file_processor" startOffset="50%" dy="-5">uses</textPath>
+  </text>
+  
+  <!-- Processor to API -->
+  <path id="path-processor-api" d="M500,190 C400,150 350,190 380,190" fill="none" stroke="#0066cc" stroke-width="2.5" marker-end="url(#arrowhead-data)"/>
+  <text text-anchor="middle" fill="#0066cc" font-weight="bold">
+    <textPath href="#path-processor-api" startOffset="50%" dy="-5">receives data</textPath>
+  </text>
+  
+  <!-- CLI to Config -->
+  <path id="path-cli-config" d="M440,380 C440,400 490,420 490,450" fill="none" stroke="#009933" stroke-width="2" marker-end="url(#arrowhead-config)"/>
+  <text text-anchor="middle" fill="#009933" font-weight="bold">
+    <textPath href="#path-cli-config" startOffset="50%" dy="-5">loads</textPath>
+  </text>
+  
+  <!-- GUI to Config -->
+  <path id="path-gui-config" d="M740,380 C740,400 490,420 490,450" fill="none" stroke="#009933" stroke-width="2" marker-end="url(#arrowhead-config)"/>
+  <text text-anchor="middle" fill="#009933" font-weight="bold">
+    <textPath href="#path-gui-config" startOffset="50%" dy="-5">loads</textPath>
+  </text>
+  
+  <!-- CLI to Error -->
+  <path id="path-cli-error" d="M530,340 C600,380 650,420 740,450" fill="none" stroke="#cc0000" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead-error)"/>
+  <text text-anchor="middle" fill="#cc0000" font-weight="bold">
+    <textPath href="#path-cli-error" startOffset="50%" dy="-5">reports</textPath>
+  </text>
+  
+  <!-- GUI to Error -->
+  <path id="path-gui-error" d="M740,380 C740,400 740,420 740,450" fill="none" stroke="#cc0000" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead-error)"/>
+  <text text-anchor="middle" fill="#cc0000" font-weight="bold">
+    <textPath href="#path-gui-error" startOffset="50%" dy="-5">reports</textPath>
+  </text>
+  
+  <!-- Version information -->
+  <g transform="translate(950, 680)">
+    <text id="version-text" text-anchor="end" font-size="12" fill="#666">v1.0.0 - Last updated: May 2023</text>
+  </g>
+</svg>
