@@ -134,6 +134,11 @@ def install_completion():
     help="Maximum number of messages to retrieve. Default: 100"
 )
 @click.option(
+    "--no-gui",
+    is_flag=True,
+    help="Disable GUI file dialog for selecting output file."
+)
+@click.option(
     "--verbose",
     is_flag=True,
     help="Enable verbose logging."
@@ -144,6 +149,7 @@ def dump(
     format_type: str,
     output_file: Optional[str],
     limit: int,
+    no_gui: bool,
     verbose: bool
 ) -> None:
     """
@@ -152,7 +158,8 @@ def dump(
     If --token or --channel-id are not provided, the tool will attempt to load them
     from environment variables DISCORD_TOKEN and DISCORD_CHANNEL_ID respectively.
 
-    The --output-file option is required to specify where to save the messages.
+    If --output-file is not provided and --no-gui is not set, a file dialog will open
+    to select the output file location.
     """
     # Set up logging based on verbosity
     setup_logging(verbose)
@@ -162,31 +169,14 @@ def dump(
 
     # Get token from option or environment
     token = token or os.getenv("DISCORD_TOKEN")
-    channel_id = channel_id or os.getenv("DISCORD_CHANNEL_ID")
-
-    # Check if required parameters are missing
-    missing_params = []
     if not token:
-        missing_params.append("Discord token")
+        logger.error("Discord token not provided. Use --token option or set DISCORD_TOKEN environment variable.")
+        sys.exit(1)
+
+    # Get channel ID from option or environment
+    channel_id = channel_id or os.getenv("DISCORD_CHANNEL_ID")
     if not channel_id:
-        missing_params.append("Channel ID")
-
-    # If any parameters are missing, provide detailed guidance
-    if missing_params:
-        logger.error(f"Missing required parameters: {', '.join(missing_params)}")
-        logger.info("\nYou can provide these parameters in one of the following ways:")
-        logger.info("1. Command line options:")
-        if "Discord token" in missing_params:
-            logger.info("   --token YOUR_DISCORD_TOKEN")
-        if "Channel ID" in missing_params:
-            logger.info("   --channel-id YOUR_CHANNEL_ID")
-
-        logger.info("\n2. Environment variables in .env file:")
-        if "Discord token" in missing_params:
-            logger.info("   DISCORD_TOKEN=YOUR_DISCORD_TOKEN")
-        if "Channel ID" in missing_params:
-            logger.info("   DISCORD_CHANNEL_ID=YOUR_CHANNEL_ID")
-
+        logger.error("Channel ID not provided. Use --channel-id option or set DISCORD_CHANNEL_ID environment variable.")
         sys.exit(1)
 
     # Create API client
@@ -222,8 +212,18 @@ def dump(
         file_handler = FileHandler()
 
         # Determine output file path
-        if not output_file:
-            logger.error("No output file specified. Use --output-file option.")
+        if not output_file and not no_gui:
+            # Get default filename based on format type
+            _, _, default_filename = file_handler.get_file_type_info(format_type)
+
+            logger.info("Opening file dialog to select output location")
+            output_file = file_handler.open_save_dialog(default_filename, format_type)
+
+            if not output_file:
+                logger.error("No output file selected. Exiting.")
+                sys.exit(1)
+        elif not output_file and no_gui:
+            logger.error("No output file specified and GUI is disabled. Use --output-file option.")
             sys.exit(1)
 
         # Save formatted content to file
