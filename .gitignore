@@ -175,3 +175,6 @@ PLAN.md
 
 # Discord messages output directory
 saved_messages/
+
+# Environment variables file with sensitive data
+.env
